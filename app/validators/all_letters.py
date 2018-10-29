@@ -1,3 +1,5 @@
+import json
+
 class AllLettersValidator(object):
     ENGLISH_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
 
@@ -20,3 +22,14 @@ class AllLettersValidator(object):
 
     def _has_all_letters(self, char_dict):
         return (len(char_dict.keys()) == 26)
+
+
+def all_letters_validator_lambda(event, context):
+    if not 'string' in event:
+        raise KeyError("Parameter 'string' was not found")
+
+    validator = AllLettersValidator()
+    result = validator.validate(event['string'])
+
+    return json.dumps({ "result": "{}".format(str(result).lower())})
+
