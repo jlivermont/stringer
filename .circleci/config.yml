@@ -16,7 +16,7 @@ jobs:
           command: |
             apk update
             apk upgrade
-            apk add --no-cache py-pip
+            apk add --no-cache py-pip zip bash
             pip install --upgrade pip
             pip install awscli
       - run:
@@ -30,3 +30,6 @@ jobs:
           command: |
             IMAGE_ID=$(docker image ls | grep app | grep latest | awk '{ print $3}')
             docker run -it $IMAGE_ID /bin/sh -c 'pytest /app/test/unit'
+      - run:
+          name: Upload to Lambda
+          command: /bin/bash ./lambda.sh
