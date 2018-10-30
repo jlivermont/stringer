@@ -1,0 +1,32 @@
+# Ruby CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+#
+version: 2
+jobs:
+  build:
+    working_directory: /app
+    docker:
+      - image: docker:18.05.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Install dependencies
+          command: |
+            apk update
+            apk upgrade
+            apk add --no-cache py-pip
+            pip install --upgrade pip
+            pip install awscli
+      - run:
+          name: Log into ECR
+          command: eval $(aws ecr get-login --profile jlivermont --region us-west-2 --no-include-email)
+      - run:
+          name: Build Docker Image
+          command: docker build -t app:latest .
+      - run:
+          name: Run Unit Tests
+          command: |
+            IMAGE_ID=$(docker image ls | grep app | grep latest | awk '{ print $3}')
+            docker run -it $IMAGE_ID /bin/sh -c 'pytest /app/test/unit'
