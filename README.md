@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/jlivermont/stringer/tree/master.svg?style=svg)](https://circleci.com/gh/jlivermont/stringer/tree/master)
+
 # All Letters Validator
 
 The all letters library and web service can determine whether a given string contains all 26 English letters (a-z) regardless of case.
