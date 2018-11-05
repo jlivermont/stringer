@@ -39,3 +39,4 @@ False
 
 ## Tests
 You can execute unit tests by running `pytest ./test/unit` from the top-level project directory.
+You can execute acceptance tests by running `pytest ./test/acceptance` from the top-level project directory.
